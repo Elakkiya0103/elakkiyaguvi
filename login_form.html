@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>guvi Login</title>
+
+    <!-- Bootstrap -->
+    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="../vendors/animate.css/animate.min.css" rel="stylesheet">
+
+    <!-- Custom Theme Style --><link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    
+    <!-- Custom Theme Style -->
+      <link href="../build/css/custom.min.css" rel="stylesheet">
+  </head>
+
+  <body class="login" >
+    <div>
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
+
+
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+            <form>
+              <h1>Login Form</h1>
+              <div>
+                <input type="text" class="form-control" placeholder="Registered Email Id" id="loginemail" required />
+              </div>
+              <div>
+                <input type="password" class="form-control" placeholder="Password"  id="loginpassword" required />
+              </div>
+                 <div style="font-size: 10px; color: red;display: none;" id="loginerror">
+                Invalid details **
+              </div>
+                
+              <div>
+                <a class="btn btn-default submit" href="javascript:login()">Login</a>
+                  <br>
+                  </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">New to the platform?
+                  <a href="#signup" class="to_register"> Create Account </a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-building-o"></i> GUVI</h1>
+                  
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <div id="register" class="animate form registration_form">
+          <section class="login_content">
+            <form>
+              <h1>Create Account</h1>
+                <!--<div>
+                <input type="hname" class="form-control" placeholder="Hotel name" id="signuphname" required=""/>
+                       </div>-->
+                <br>
+                
+                <div>
+                <input type="email" class="form-control" placeholder="Email" id ="signupemail" required="" />
+              </div>
+
+              <!--<div>
+                <input type="text" class="form-control" placeholder="Mobile Number" id ="signupphone" required="" />
+              </div>
+                <div>
+                <input type="text" class="form-control" placeholder="Address" id ="signupaddress" required="" />
+              </div>-->
+              
+                
+                            <div>
+                <input type="password" class="form-control" placeholder="Password"  id ="signuppassword" required="" />
+              </div>
+                 <div>
+                <input type="password" class="form-control" placeholder="Confirm Password" id ="signupconfirm"  required="" />
+              </div>
+                     <div id="signuperror" style="font-size: 10px; color: red;display: none;">
+                Invalid details **
+              </div>
+              <div>
+                <a class="btn btn-default submit" href="javascript:create()">Submit</a>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">Already a member ?
+                  <a href="#signin" class="to_register"> Log in </a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-building-o"></i>guvi</h1>
+                  
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+
+      
+      
+      <script>
+      function create()
+          {
+          
+              if( document.getElementById("signupemail").value != "" && document.getElementById("signupemail").value != null,document.getElementById("signuppassword").value != "" && document.getElementById("signuppassword").value != null )
+                  {
+                      
+                      if(document.getElementById("signuppassword").value  == document.getElementById("signupconfirm").value )
+                          {
+         //  var xmlhttp;
+                              var data;
+                              var req;
+        var xmlhttp=new XMLHttpRequest();
+         xmlhttp.onreadystatechange=function()
+         {
+           // alert(this.status);
+             if(this.readyState==4&&this.status==200){
+                 
+             
+   
+    data = xmlhttp.responseText;
+    req = JSON.parse(data);
+                             // alert(req[0].status);
+                             if(parseInt(req[0].status) == 1)
+                                 {
+                                     
+                                      swal("Oops..!!!!", "The mobile numbered entered is already registered, Try logging in.");
+                                 }
+                              else  if(parseInt(req[0].status) == 0)
+                                  {
+                                      var rec=document.getElementById("signupemail").value;
+                                      var splits = rec.split("@");
+                                      //alert(splits[0]);
+                                      localStorage.setItem("userid",document.getElementById("signupphone").value);
+                                      localStorage.setItem("username",splits[0]);
+                                      window.location="index.html";
+                                      
+                                  }
+
+                                  
+                  
+                      else{
+                         document.getElementById("signuperror").innerHTML="Password and confirm password are not same";
+              document.getElementById("signuperror").style.display="block"; 
+                          document.getElementById("signuppassword").value="";
+                          document.getElementById("signupconfirm").value="";
+                      }
+         }
+                          };
+xmlhttp.open("GET","http://localhost/login/vista_dashboard/production/api/user_insert.php?  &email="+document.getElementById("signupemail").value+"&password="+document.getElementById("signuppassword").value,false);
+    xmlhttp.send();
+                              alert("Record inserted successfully");
+
+                  }
+          
+          
+          else{
+              document.getElementById("signuperror").innerHTML="Fill in all the details";
+              document.getElementById("signuperror").style.display="block";
+          }
+          }
+          }
+      
+      </script>
+      
+      <script>
+      
+
+      function login()
+          {if(document.getElementById("loginpassword").value != "" && document.getElementById("loginpassword").value != null,document.getElementById("loginemail").value != "" && document.getElementById("loginemail").value != null)
+                  {  // var xmlhttp;
+                      var data;
+                      var req;
+                      var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+  // alert(this.status);
+    if (this.readyState == 4 && this.status == 200) {
+         data=xhttp.responseText;
+         req = JSON.parse(data);//alert("hi");
+                 if(req[0].password == document.getElementById("loginpassword").value)
+                                 {
+                                     
+                                    //alert(req[0].email)
+                                     var rec=req[0].email;
+                                     var splits = rec.split("@");
+                                      //alert(splits[0]);
+                        localStorage.setItem("userid",document.getElementById("loginemail").value);
+                                      localStorage.setItem("username",splits[0]);
+                                //window.location="http://localhost/login/vista_dashboard/material-dashboard-master/examples/dashboard.html";
+                                 }
+                              else  
+                                  {
+                                      
+                                     document.getElementById("loginerror").innerHTML="Invalid Credentials";
+              document.getElementById("loginerror").style.display="block";   
+                                    
+                                  }
+ 
+    }
+};
+                      
+xhttp.open("GET", "http://localhost/login/vista_dashboard/production/api/loginfetch.php?data1="+document.getElementById("loginemail").value, true);
+xhttp.send();                    
+   
+                             
+                      
+                  }
+              else{
+                  document.getElementById("loginerror").innerHTML="Invalid Credentials";
+              document.getElementById("loginerror").style.display="block"; 
+                  
+              }
+          }
+      </script>
+      
+     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+  </body>
+</html>

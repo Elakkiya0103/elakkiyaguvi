@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Registration </title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="./m.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+ <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+ <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+ <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+ <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    
+<script type="text/javascript">
+$(document).ready(function(){
+    function alignModal(){
+        var modalDialog = $(this).find(".modal-dialog");
+        // Applying the top margin on modal dialog to align it vertically center
+        modalDialog.css("margin-top", Math.max(0, ($(window).height() - modalDialog.height()) / 2));
+    }
+    // Align modal when it is displayed
+    $(".modal").on("shown.bs.modal", alignModal);
+    
+    // Align modal when user resize the window
+    $(window).on("resize", function(){
+        $(".modal:visible").each(alignModal);
+    });   
+});
+</script>
+<style type="text/css">
+    .bs-example{
+    	margin: 20px;
+    }
+</style>
+</head>
+<body>
+    
+    
+    
+<div class="bs-example">
+    <!-- Button HTML (to Trigger Modal) -->
+    <center>
+    <a href="#myModal" class="btn btn-lg btn-primary" data-toggle="modal">Edit</a>
+    </center>
+    
+    <!-- Modal HTML -->
+    <div id="myModal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: black">&times;</button>
+                    <h1 align="center" class="modal-title">Registration</h1>
+                </div>
+                <div class="modal-body">
+                    <form id="contactform" method="get" align="center">
+                        <input id="name" type="text" placeholder="Name"  required="" style="color: black"/>
+                        <input id="room_no" type="text" placeholder="Room No" required="" style="color: black"/>
+                        <input id="check_in" type="text" placeholder="Check_in Time" required="" style="color: black"/>
+                        <input id="check_out" type="text" placeholder="Check_out Time" required="" style="color: black"/>                     
+                      
+<center>
+                    <button type="submit" value="submit" name="submit" onclick="fetchinfo()">Submit</button>
+                    
+                    </center>
+                    <script>
+      function fetchinfo()
+          {
+              if(document.getElementById("name").value != "" && document.getElementById("name").value != null,document.getElementById("room_no").value != "" && document.getElementById("room_no").value != null,document.getElementById("check_in").value != "" && document.getElementById("check_in").value != null,document.getElementById("check_out").value != "" && document.getElementById("check_out").value != null )
+                  { 
+                      
+                      var xmlhttp;
+                      xmlhttp=new XMLHttpRequest();
+                      xmlhttp.onreadystatechange=function()
+                  
+                  
+                  {
+                         /// alert("fetchinfo()");
+                      //alert(this.status);
+                      if( this.readyState == 4 && this.status == 200 ){            
+           
+         
+    
+    var data = xmlhttp.responseText;
+     var req = JSON.parse(data);
+                              alert(req[0].status);
+                             if(parseInt(req[0].status) == 1)
+                                 {
+                                     
+                                      alert("Oops..!!!!", "The information entered is already registered");
+                                 }
+                              else  if(parseInt(req[0].status) == 0)
+                                  {
+                                       localStorage.setItem("ro",document.getElementById("room_no").value);
+                                     // localStorage.setItem("us",document.getElementById("userinfo").value);
+                                      
+                                      
+                                  }
+
+                                  
+                  
+                      else{
+                         
+                          alert("The information entered is already registered");
+                          
+                          /*document.getElementById("signuperror").innerHTML="Password and confirm password are not same";
+              document.getElementById("signuperror").style.display="block"; 
+                          document.getElementById("signuppassword").value="";
+                          document.getElementById("signupconfirm").value="";*/
+                      }
+                  
+                  
+                      }
+                  };
+                      
+                   xmlhttp.open("GET","http://localhost/login/vista_dashboard/New/user.php?&name="+document.getElementById("name").value+"&room_no="+document.getElementById("room_no").value+"&check_in="+document.getElementById("check_in").value+"&check_out="+document.getElementById("check_out").value,true);
+                   xmlhttp.send();
+                      alert("Inserted");
+                     
+
+                  }
+          
+          
+          
+          else{
+              
+             // swal("Fill Up the Required fields!!");
+              
+             /* document.getElementById("signuperror").innerHTML="Fill in all the details";
+              document.getElementById("signuperror").style.display="block";*/
+          }
+          }
+          
+              
+                        
+          
+                        
+      
+      </script>
+                
+                    </form>
+               
+                </div>
+                
+            </div>
+        </div>
+    </div>
+     
+</div>     
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  
+</body>
+   
+</html>                            
